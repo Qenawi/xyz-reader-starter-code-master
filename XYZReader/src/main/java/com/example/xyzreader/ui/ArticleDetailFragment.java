@@ -84,7 +84,8 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
@@ -115,29 +116,27 @@ public class ArticleDetailFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
-        setHasOptionsMenu(true);
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-
-
         mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
                 mRootView.findViewById(R.id.draw_insets_frame_layout);
         mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback()
         {
             @Override
-            public void onInsetsChanged(Rect insets) {
+            public void onInsetsChanged(Rect insets)
+            {
                 mTopInset =insets.top;
             }
         });
         mRootView.findViewById(R.id.sharex).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                         .setType("text/plain")
                         .setText("Some sample text")
                         .getIntent(), getString(R.string.action_share)));
             }
         });
-
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         //Set toolbar title
         //------------
@@ -149,7 +148,7 @@ public class ArticleDetailFragment extends Fragment implements
         Toolbar toolbar = (Toolbar)mRootView.findViewById(R.id.toolbarFragi);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        bindViews();
+     //   bindViews();
         return mRootView;
     }
     private void updateStatusBar()
@@ -193,8 +192,12 @@ public class ArticleDetailFragment extends Fragment implements
         }
     }
 
-    private void bindViews() {
-        if (mRootView == null) {
+    private void bindViews()
+    {
+
+        if (mRootView == null)
+        {
+
             return;
         }
 
@@ -206,13 +209,15 @@ public class ArticleDetailFragment extends Fragment implements
 
         bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
-        if (mCursor != null) {
+        if (mCursor != null)
+        {
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             Date publishedDate = parsePublishedDate();
-            if (!publishedDate.before(START_OF_EPOCH.getTime())) {
+            if (!publishedDate.before(START_OF_EPOCH.getTime()))
+            {
                 bylineView.setText(Html.fromHtml(
                         DateUtils.getRelativeTimeSpanString(
                                 publishedDate.getTime(),
@@ -222,7 +227,9 @@ public class ArticleDetailFragment extends Fragment implements
                                 + mCursor.getString(ArticleLoader.Query.AUTHOR)
                                 + "</font>"));
 
-            } else {
+            }
+            else
+            {
                 // If date is before 1902, just show the string
                 bylineView.setText(Html.fromHtml(
                         outputFormat.format(publishedDate) + " by <font color='#ffffff'>"
@@ -231,6 +238,7 @@ public class ArticleDetailFragment extends Fragment implements
 
             }
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
@@ -260,21 +268,27 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
+    {
+
         return ArticleLoader.newInstanceForItemId(getActivity(), mItemId);
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        if (!isAdded()) {
-            if (cursor != null) {
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor)
+    {
+        if (!isAdded())
+        {
+            if (cursor != null)
+            {
                 cursor.close();
             }
             return;
         }
 
         mCursor = cursor;
-        if (mCursor != null && !mCursor.moveToFirst()) {
+        if (mCursor != null && !mCursor.moveToFirst())
+        {
             Log.e(TAG, "Error reading item detail cursor");
             mCursor.close();
             mCursor = null;
@@ -284,7 +298,8 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(Loader<Cursor> cursorLoader)
+    {
         mCursor = null;
         bindViews();
     }
