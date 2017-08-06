@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -49,6 +50,7 @@ public class ArticleDetailFragment extends Fragment implements
     private static final float PARALLAX_FACTOR = 1.25f;
     private Cursor mCursor;
     private long mItemId;
+    private ProgressBar ad;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
     private ObservableScrollView mScrollView;
@@ -87,7 +89,6 @@ public class ArticleDetailFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
@@ -117,7 +118,8 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState)
     {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
+        ad=(ProgressBar) mRootView.findViewById(R.id.indicator);
+                mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
                 mRootView.findViewById(R.id.draw_insets_frame_layout);
         mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback()
         {
@@ -270,7 +272,8 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
-
+        ad.setVisibility(View.VISIBLE);
+        ad.setEnabled(true);
         return ArticleLoader.newInstanceForItemId(getActivity(), mItemId);
     }
 
@@ -295,6 +298,7 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
         bindViews();
+        ad.setVisibility(View.INVISIBLE);
     }
 
     @Override

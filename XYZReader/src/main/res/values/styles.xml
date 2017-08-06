@@ -18,10 +18,16 @@
 <resources>
 
     <style name="Theme.Bacon" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/Om</item>
+        <item name="colorPrimaryDark">@color/Oma</item>
+        <item name="colorAccent">@color/Ome</item>
     </style>
     <style name="Theme.Bacon.Detail">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
     <style name="AppTheme.Over" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+    <color name="Om">#848686</color>
+    <color name="Oma">#363535</color>
+    <color name="Ome">#252e2e</color>
 </resources>
